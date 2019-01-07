@@ -8,19 +8,20 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.LineBasedFrameDecoder;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
-import nutty.handler.EchoClientHandler;
+import nutty.handler.ChatClientHandler;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
 
-public class EchoClient {
+public class ChatClient {
     private final String host;
     private final int port;
 
-    public EchoClient(String host, int port) {
+    public ChatClient(String host, int port) {
         this.port = port;
         this.host = host;
     }
@@ -36,9 +37,10 @@ public class EchoClient {
                     .remoteAddress(new InetSocketAddress(host, port))
                     .handler(new ChannelInitializer<SocketChannel>() {
                         public void initChannel(SocketChannel ch) {
+                            ch.pipeline().addLast("frameDecoder", new LineBasedFrameDecoder(80));
                             ch.pipeline().addLast("decoder", new StringDecoder());
                             ch.pipeline().addLast("encoder", new StringEncoder());
-                            ch.pipeline().addLast(new EchoClientHandler());
+                            ch.pipeline().addLast(new ChatClientHandler());
                         }
                     });
             ChannelFuture f = b.connect().sync();
@@ -71,6 +73,6 @@ public class EchoClient {
             host = args[1];
         }
 
-        new EchoClient(host, port).start();
+        new ChatClient(host, port).start();
     }
 }

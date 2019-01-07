@@ -7,17 +7,18 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.LineBasedFrameDecoder;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
-import nutty.handler.EchoServerHandler;
+import nutty.handler.ChatServerHandler;
 
 import java.net.InetSocketAddress;
 
-public class EchoServer {
+public class ChatServer {
 
     private final int port;
 
-    private EchoServer(int port) {
+    private ChatServer(int port) {
         this.port = port;
     }
 
@@ -32,11 +33,11 @@ public class EchoServer {
         }
 
         System.out.println("Starting host at port: " + port);
-        new EchoServer(port).start();
+        new ChatServer(port).start();
     }
 
     private void start() throws Exception {
-        final EchoServerHandler serverHandler = new EchoServerHandler();
+        final ChatServerHandler serverHandler = new ChatServerHandler();
         EventLoopGroup group = new NioEventLoopGroup();
 
         try {
@@ -48,6 +49,7 @@ public class EchoServer {
 
                         @Override
                         public void initChannel(SocketChannel ch) {
+                            ch.pipeline().addLast("frameDecoder", new LineBasedFrameDecoder(80));
                             ch.pipeline().addLast("decoder", new StringDecoder());
                             ch.pipeline().addLast("encoder", new StringEncoder());
                             ch.pipeline().addLast(serverHandler);

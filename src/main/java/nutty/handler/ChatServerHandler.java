@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @ChannelHandler.Sharable
-public class EchoServerHandler extends SimpleChannelInboundHandler<String> {
+public class ChatServerHandler extends SimpleChannelInboundHandler<String> {
 
     // what does this do?
     private static final ChannelGroup channels =

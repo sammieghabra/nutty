@@ -5,7 +5,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
 @ChannelHandler.Sharable
-public class EchoClientHandler extends SimpleChannelInboundHandler<String> {
+public class ChatClientHandler extends SimpleChannelInboundHandler<String> {
 
     /**
      * called when a message is received from the server
