@@ -59,7 +59,6 @@ public class EchoServer {
         } finally {
             group.shutdownGracefully().sync();
         }
-
     }
 
 }

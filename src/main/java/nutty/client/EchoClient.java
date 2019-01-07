@@ -59,8 +59,18 @@ public class EchoClient {
     }
 
     public static void main(String[] args) throws Exception {
-        String host = "localhost";
-        int port = 9000;
+        String host;
+        int port;
+
+        if (args.length != 2) {
+            // just some defaults
+            host = "localhost";
+            port = 9000;
+        } else {
+            port = Integer.parseInt(args[0]);
+            host = args[1];
+        }
+
         new EchoClient(host, port).start();
     }
 }

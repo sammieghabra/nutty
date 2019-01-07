@@ -73,7 +73,6 @@ public class EchoServerHandler extends SimpleChannelInboundHandler<String> {
                             + " and existing username: "
                             + channelIdToUserName.get(channelId));
                 }
-
             }
         }
     }
