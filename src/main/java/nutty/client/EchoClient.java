@@ -48,7 +48,7 @@ public class EchoClient {
                     (System.in));
 
             while (true) {
-                channel.writeAndFlush(in.readLine() + "\n");
+                channel.writeAndFlush(in.readLine());
             }
 
             //f.channel().closeFuture().sync();
