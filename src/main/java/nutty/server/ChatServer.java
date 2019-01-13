@@ -49,7 +49,7 @@ public class ChatServer {
 
                         @Override
                         public void initChannel(SocketChannel ch) {
-                            ch.pipeline().addLast("frameDecoder", new LineBasedFrameDecoder(80));
+                            ch.pipeline().addLast("frameDecoder", new LineBasedFrameDecoder(120));
                             ch.pipeline().addLast("decoder", new StringDecoder());
                             ch.pipeline().addLast("encoder", new StringEncoder());
                             ch.pipeline().addLast(serverHandler);
