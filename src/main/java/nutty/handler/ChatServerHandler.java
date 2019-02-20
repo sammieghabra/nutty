@@ -28,8 +28,13 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<String> {
     public void handlerRemoved(ChannelHandlerContext ctx) {
         System.out.println("Removing channel- " + ctx.channel().remoteAddress());
         channels.remove(ctx.channel());
+        
         final String userName = channelIdToUserName.get(ctx.channel().id().asLongText());
-        userNameToChannelId.remove(userName);
+
+        if (userName != null) {
+            userNameToChannelId.remove(userName);
+        }
+
         channelIdToUserName.remove(ctx.channel().id().asLongText());
     }
 

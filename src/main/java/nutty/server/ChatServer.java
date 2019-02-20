@@ -8,9 +8,12 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.LineBasedFrameDecoder;
+import io.netty.handler.codec.http.HttpRequestDecoder;
+import io.netty.handler.codec.http.HttpRequestEncoder;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import nutty.handler.ChatServerHandler;
+import nutty.handler.HttpServerHandler;
 
 import java.net.InetSocketAddress;
 
@@ -37,7 +40,7 @@ public class ChatServer {
     }
 
     private void start() throws Exception {
-        final ChatServerHandler serverHandler = new ChatServerHandler();
+        final HttpServerHandler serverHandler = new HttpServerHandler();
         EventLoopGroup group = new NioEventLoopGroup();
 
         try {
@@ -49,9 +52,11 @@ public class ChatServer {
 
                         @Override
                         public void initChannel(SocketChannel ch) {
-                            ch.pipeline().addLast("frameDecoder", new LineBasedFrameDecoder(120));
-                            ch.pipeline().addLast("decoder", new StringDecoder());
-                            ch.pipeline().addLast("encoder", new StringEncoder());
+                            //ch.pipeline().addLast("frameDecoder", new LineBasedFrameDecoder(120));
+                            //ch.pipeline().addLast("decoder", new StringDecoder());
+                            //ch.pipeline().addLast("encoder", new StringEncoder());
+                            ch.pipeline().addLast(new HttpRequestDecoder());
+                            ch.pipeline().addLast(new HttpRequestEncoder());
                             ch.pipeline().addLast(serverHandler);
                         }
 
